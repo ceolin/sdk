@@ -36,6 +36,14 @@ jobs:
         pip install clang-format
         pip install gitlint
 
+    - name: Check CPP comments
+      shell: bash
+      run: |
+         if git diff  origin/$GITHUB_BASE_REF -- "*.[ch]" | grep -n '//[^/]'; then
+             echo "❌ Found C++ style (//) comments. Use /* ... */ instead."
+             exit 1
+         fi
+
     # Currently, there are formatting inconsistencies that result in
     # improper code styling. Example of such issues:
     #
