@@ -79,4 +79,25 @@ jobs:
         run: |
           set -euxo pipefail
           # Build all Zephyr projects in samples/zephyr directory
-          west twister -T samples/zephyr --build-only
+          west twister -T samples/zephyr --build-only --footprint-report
+
+      - name: Show quick twister summary (testplan.json)
+        if: always()
+        run: |
+          FILE="twister-out/twister_footprint.json"
+
+          if [ -f "$FILE" ]; then
+            cat $FILE
+            echo "Summary files written to twister-out/"
+          else
+            echo "twister-out/testplan.json not found"
+            exit 0
+          fi
+
+      - name: Upload Twister outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: twister-ble-network-${{ github.run_id }}
+          path: twister-out/twister_footprint.json
+          if-no-files-found: ignore
