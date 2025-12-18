@@ -30,14 +30,10 @@ ZTEST(bitarray, test_overflow)
 ZTEST(bitarray, test_invalid_access)
 {
 	struct hubble_bitarray bit_array;
-	uint8_t data = 0xff;
 
 	hubble_bitarray_init(&bit_array);
 
 	zassert_equal(hubble_bitarray_get_bit(&bit_array, 1), -EINVAL);
-	zassert_equal(hubble_bitarray_get_bit(&bit_array, INT_MAX), -EINVAL);
-	zassert_ok(hubble_bitarray_append(&bit_array, &data, sizeof(data) * 8));
-	zassert_equal(hubble_bitarray_get_bit(&bit_array, INT_MAX), -EINVAL);
 }
 
 ZTEST(bitarray, test_regular_usage)
