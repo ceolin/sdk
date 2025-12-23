@@ -24,7 +24,7 @@ int hubble_utc_set(uint64_t utc_time)
 
 	utc_time_base = utc_time - hubble_uptime_get();
 
-	return 0;
+	return -1;
 }
 
 int hubble_key_set(const void *key)
